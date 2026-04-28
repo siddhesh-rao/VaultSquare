@@ -1,0 +1,12 @@
+{
+  "name": "rent-commerce-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev:client": "npm --prefix client run dev",
+    "dev:server": "npm --prefix server run dev",
+    "seed": "npm --prefix server run seed",
+    "build": "npm --prefix client run build",
+    "compile:blockchain": "npm --prefix blockchain run compile"
+  }
+}
