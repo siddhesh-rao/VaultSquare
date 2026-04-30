@@ -27,6 +27,7 @@ const ProductListingPage = () => {
         setCategories(data.categories || ["All"]);
         setError("");
       } catch (err) {
+        setProducts([]);
         setError(err.response?.data?.message || "Failed to fetch products");
       } finally {
         setLoading(false);
@@ -73,7 +74,7 @@ const ProductListingPage = () => {
       <Alert type="error" message={error} />
       {loading ? (
         <Loader text="Loading products..." />
-      ) : products.length > 0 ? (
+      ) : error ? null : products.length > 0 ? (
         <ProductGrid products={products} />
       ) : (
         <div className="card p-8 text-center">
