@@ -28,7 +28,7 @@ const ProductListingPage = () => {
         setError("");
       } catch (err) {
         setProducts([]);
-        setError(err.response?.data?.message || "Failed to fetch products");
+        setError(err.response?.data?.message || err.message || "Failed to fetch products");
       } finally {
         setLoading(false);
       }
