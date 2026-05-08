@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
+const mongoose = require("mongoose");
 
 const authRoutes = require("./routes/authRoutes");
 const productRoutes = require("./routes/productRoutes");
@@ -44,7 +45,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 
 app.get("/api/health", (req, res) => {
-  res.json({ success: true, message: "API is healthy" });
+  res.json({
+    success: true,
+    message: "API is healthy",
+    database: mongoose.connection.readyState === 1 ? "connected" : "disconnected"
+  });
 });
 
 app.use("/api/auth", authRoutes);
