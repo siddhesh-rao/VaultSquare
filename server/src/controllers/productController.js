@@ -83,12 +83,29 @@ const deleteProduct = asyncHandler(async (req, res) => {
     throw new Error("Product not found");
   }
 
-  product.isActive = false;
+  product.isActive = !product.isActive;
   await product.save();
 
   res.json({
     success: true,
-    message: "Product archived successfully"
+    message: product.isActive ? "Product unarchived successfully" : "Product archived successfully",
+    product
+  });
+});
+
+const permanentlyDeleteProduct = asyncHandler(async (req, res) => {
+  const product = await Product.findById(req.params.id);
+
+  if (!product) {
+    res.status(404);
+    throw new Error("Product not found");
+  }
+
+  await product.deleteOne();
+
+  res.json({
+    success: true,
+    message: "Product deleted permanently"
   });
 });
 
@@ -125,5 +142,6 @@ module.exports = {
   createProduct,
   updateProduct,
   deleteProduct,
+  permanentlyDeleteProduct,
   checkAvailability
 };

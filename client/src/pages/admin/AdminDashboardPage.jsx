@@ -124,10 +124,24 @@ const AdminDashboardPage = () => {
   const handleDelete = async (productId) => {
     try {
       await api.delete(`/products/${productId}`);
-      setMessage("Product archived successfully");
+      const updatedProduct = products.find((item) => item._id === productId);
+      setMessage(updatedProduct?.isActive ? "Product archived successfully" : "Product unarchived successfully");
       await fetchAdminData();
     } catch (err) {
-      setError(err.response?.data?.message || "Failed to archive product");
+      setError(err.response?.data?.message || "Failed to update product status");
+    }
+  };
+
+  const handlePermanentDelete = async (productId) => {
+    try {
+      await api.delete(`/products/${productId}/permanent`);
+      setMessage("Product deleted permanently");
+      if (editingId === productId) {
+        resetForm();
+      }
+      await fetchAdminData();
+    } catch (err) {
+      setError(err.response?.data?.message || "Failed to delete product permanently");
     }
   };
 
@@ -259,10 +273,21 @@ const AdminDashboardPage = () => {
                         </button>
                         <button
                           type="button"
-                          className="button-primary !bg-rose-500 !px-4 !py-2 hover:!bg-rose-400"
+                          className={
+                            product.isActive
+                              ? "button-primary !bg-rose-500 !px-4 !py-2 hover:!bg-rose-400"
+                              : "button-primary !bg-emerald-500 !px-4 !py-2 hover:!bg-emerald-400"
+                          }
                           onClick={() => handleDelete(product._id)}
                         >
-                          Archive
+                          {product.isActive ? "Archive" : "Unarchive"}
+                        </button>
+                        <button
+                          type="button"
+                          className="button-secondary !border-rose-500/40 !bg-rose-500/10 !px-4 !py-2 !text-rose-200 hover:!bg-rose-500/20"
+                          onClick={() => handlePermanentDelete(product._id)}
+                        >
+                          Delete
                         </button>
                       </div>
                     </div>
