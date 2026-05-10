@@ -133,6 +133,14 @@ const AdminDashboardPage = () => {
   };
 
   const handlePermanentDelete = async (productId) => {
+    const confirmed = window.confirm(
+      "Are you sure you want to permanently delete this product? This action cannot be undone."
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
     try {
       await api.delete(`/products/${productId}/permanent`);
       setMessage("Product deleted permanently");
@@ -284,10 +292,24 @@ const AdminDashboardPage = () => {
                         </button>
                         <button
                           type="button"
-                          className="button-secondary !border-rose-500/40 !bg-rose-500/10 !px-4 !py-2 !text-rose-200 hover:!bg-rose-500/20"
+                          aria-label={`Delete ${product.name}`}
+                          title="Delete permanently"
+                          className="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-rose-500/40 bg-rose-500/10 text-rose-200 transition hover:bg-rose-500/20"
                           onClick={() => handlePermanentDelete(product._id)}
                         >
-                          Delete
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="1.8"
+                            className="h-5 w-5"
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M4 7h16" />
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M7 7l1 12a1 1 0 0 0 1 .92h6a1 1 0 0 0 1-.92L17 7" />
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M10 11v5M14 11v5" />
+                          </svg>
                         </button>
                       </div>
                     </div>
