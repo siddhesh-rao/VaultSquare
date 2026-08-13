@@ -107,7 +107,7 @@ npm run seed
 
 This seeds:
 
-- Admin user: `admin@example.com / Admin@123`
+- Admin user: `admin@example.com / *******`
 - Customer user: `jane@example.com / Password@123`
 
 ### 5. Run locally
